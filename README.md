@@ -22,4 +22,6 @@
 * Azure.AI.OpenAI (1.0.0-beta.9) - keep this version, do not update.
 * CsvHelper (30.0.1)
 
+**You need to insert your OpenAI Wep API Key into *openAIApiKey* variable in *Program.cs* class file.**
+
 ---
