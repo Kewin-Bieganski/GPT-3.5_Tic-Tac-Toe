@@ -1,0 +1,88 @@
+        // A method to generate a random move
+        public static string[,] GetRandomMove(string[,] board, string symbol)
+        {
+            Random random = new Random();
+            int size = board.GetLength(0);
+
+            while (true)
+            {
+                int row = random.Next(0, size); // 0 to size - 1 inclusive
+                int col = random.Next(0, size); // 0 to size - 1 inclusive
+
+                if (board[row, col] == "")
+                {
+                    board[row, col] = symbol;
+                    return board;
+                }
+            }
+        }
+
+        // A method to generate a random RyCx move
+        /*
+        public static string GetRandomRyCxMove(string[,] board)
+        {
+            Random random = new Random();
+            int size = board.GetLength(0);
+
+            while (true)
+            {
+                int row = random.Next(0, size); // 0 to size - 1 inclusive
+                int col = random.Next(0, size); // 0 to size - 1 inclusive
+
+                if (board[row, col] == "")
+                {
+                    return $"r{row}c{col}";
+                }
+            }
+        }
+        */
+
+                // A method to deserialize string to board
+        public static string[,] DeserializeStringToBoard(string str)
+        {
+            try
+            {
+                str = str.Substring(1, str.Length - 2);
+
+                // Split the string by the row brackets
+                string[] rows = str.Split(new string[] { "],[" }, StringSplitOptions.None);
+                int size = rows.Length;
+                string[,] board = new string[size, size];
+
+                for (int i = 0; i < size; i++)
+                {
+                    // Remove the inner brackets from the row string
+                    rows[i] = rows[i].Trim(new char[] { '[', ']' });
+                    string[] cols = rows[i].Split(',');
+
+                    for (int j = 0; j < size; j++)
+                    {
+                        board[i, j] = cols[j];
+                    }
+                }
+                return board;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+                // A method to save all telemetry data in once to a CSV file
+        public static bool SaveTelemetrListToCsv(List<Telemetry> telemetryList)
+        {
+            try
+            {
+                using var writer = new StreamWriter("telemetry.csv");
+                using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+                csv.WriteHeader<Telemetry>();
+                csv.NextRecord();
+                csv.WriteRecords(telemetryList);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
